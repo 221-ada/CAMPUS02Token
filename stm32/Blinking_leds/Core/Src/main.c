@@ -20,24 +20,12 @@
 #include "main.h"
 
 /* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
-
-/* USER CODE END Includes */
-
+#include <string.h>
 /* Private typedef -----------------------------------------------------------*/
-/* USER CODE BEGIN PTD */
-
-/* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
-/* USER CODE BEGIN PD */
-
-/* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
-/* USER CODE BEGIN PM */
-
-/* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
 I2C_HandleTypeDef hi2c1;
@@ -47,10 +35,6 @@ SPI_HandleTypeDef hspi1;
 UART_HandleTypeDef huart2;
 
 PCD_HandleTypeDef hpcd_USB_FS;
-
-/* USER CODE BEGIN PV */
-
-/* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
@@ -87,6 +71,12 @@ void debug_println(const char* s){
 	debug_print("\r\n");
 }
 
+static void uart2_println(const char* s){
+	HAL_UART_Transmit(&huart2, (uint8_t*)s, strlen(s), HAL_MAX_DELAY);
+	uint8_t nl[2] = {'\r', '\n'};
+	HAL_UART_Transmit(&huart2, nl, 2, HAL_MAX_DELAY);
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -96,30 +86,18 @@ void debug_println(const char* s){
 int main(void)
 {
 
-  /* USER CODE BEGIN 1 */
-
-  /* USER CODE END 1 */
-
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
 
-  /* USER CODE BEGIN Init */
 //  debug_println("STM32 started");
 //  debug_println("Waiting for UART commands on UART2 ...");
 
-  uint8_t rx;
 
-
-  /* USER CODE END Init */
 
   /* Configure the system clock */
   SystemClock_Config();
-
-  /* USER CODE BEGIN SysInit */
-
-  /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
@@ -127,9 +105,10 @@ int main(void)
   MX_SPI1_Init();
   MX_USB_PCD_Init();
   MX_USART2_UART_Init();
-  /* USER CODE BEGIN 2 */
 
-  /* USER CODE END 2 */
+
+  uint8_t rx;
+
 
   /* Infinite loop */
   while (1)
@@ -140,6 +119,9 @@ int main(void)
 		  if(rx == '1'){
 			  HAL_GPIO_TogglePin(GPIOE, LED_PINS[3]);
 //			  debug_println("Got '1' -> LED toggled");
+//			  uart2_println("STM32: LED toggled");
+			  const char msg[] = "STM32: LED toggled\r\n";
+			  HAL_UART_Transmit(&huart2, (uint8_t*)msg, sizeof(msg) - 1, HAL_MAX_DELAY);
 		  }
 //		  else {
 //			  debug_print("Got byte: ");
