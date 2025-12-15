@@ -80,8 +80,12 @@ static void uart2_println(const char* s){
 /* USER CODE END 0 */
 
 /**
-  * @brief  The application entry point.
-  * @retval int
+  * Simple UART command demo
+  *
+  * - Uses USART (PA2/PA3) to receive / transmit bytes from / to ESP32
+  * - When it receives '1', it toggles an on-board LED
+  * - Sends debug messages
+  *
   */
 int main(void)
 {
@@ -90,11 +94,6 @@ int main(void)
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
-
-//  debug_println("STM32 started");
-//  debug_println("Waiting for UART commands on UART2 ...");
-
-
 
   /* Configure the system clock */
   SystemClock_Config();
@@ -107,6 +106,11 @@ int main(void)
   MX_USART2_UART_Init();
 
 
+  HAL_Delay(5000);
+
+  debug_println("STM32 started");
+  debug_println("Waiting for UART commands on UART2 ...");
+
   uint8_t rx;
 
 
@@ -118,15 +122,18 @@ int main(void)
 	  if(HAL_UART_Receive(&huart2, &rx, 1, 10) == HAL_OK){
 		  if(rx == '1'){
 			  HAL_GPIO_TogglePin(GPIOE, LED_PINS[3]);
-//			  debug_println("Got '1' -> LED toggled");
-//			  uart2_println("STM32: LED toggled");
-			  const char msg[] = "STM32: LED toggled\r\n";
-			  HAL_UART_Transmit(&huart2, (uint8_t*)msg, sizeof(msg) - 1, HAL_MAX_DELAY);
-		  }
-//		  else {
-//			  debug_print("Got byte: ");
+			  debug_println("Got '1' -> LED toggled");
+			  uart2_println("STM32: LED toggled");
+//			  const char msg[] = "STM32: LED toggled\r\n";
+//			  HAL_UART_Transmit(&huart2, (uint8_t*)msg, sizeof(msg) - 1, HAL_MAX_DELAY);
 //
-//		  }
+		  }
+		  else {
+			  debug_print("Got byte: ");
+			  debug_print(rx);
+			  debug_println("");
+
+		  }
 	  }
   }
 

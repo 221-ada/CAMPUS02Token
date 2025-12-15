@@ -2,8 +2,7 @@
 
 ## Overview
 
-This experiment proves that the ESP32-S3 and STM32F3DISCOVERY
-can exchange bytes over UART.
+The ESP32-S3 and STM32F3DISCOVERY exchange a byte over UART.
 
 - **ESP32 role:** USB–UART bridge between the PC and STM32.
 - **STM32 role:** Waits for bytes on USART2; when it receives `'1'`
@@ -16,11 +15,11 @@ can exchange bytes over UART.
 
 ### Wiring (USART2 on STM32)
 
-| STM32 Pin (USART2) | ESP32 Pin     | Notes                        |
-|--------------------|---------------|------------------------------|
-| PA2 (USART2_TX)    | ESP_RX1 (RX)  | STM32 → ESP32               |
-| PA3 (USART2_RX)    | ESP_TX1 (TX)  | ESP32 → STM32               |
-| GND                | GND           | Common reference            |
+| STM32 Pin (USART2) | ESP32 Pin               | Notes                       |
+|--------------------|-------------------------|-----------------------------|
+| PA2 (USART2_TX)    | ESP_RX1 (RX - GPIO 18)  | STM32 → ESP32               |
+| PA3 (USART2_RX)    | ESP_TX1 (TX - GPIO 17)  | ESP32 → STM32               |
+| GND                | GND                     | Common reference            |
 
 Baud rate: **115200**, 8 data bits, no parity, 1 stop bit.
 
@@ -38,7 +37,7 @@ Typing `1` in the Arduino Serial Monitor and sending it to STM32.
 
 ### STM32 (`stm32/`)
 
-- Initializes GPIO, I²C1, SPI1, USB, and USART2.
+- Initializes GPIO, USB, and USART2.
 - Waits 5 seconds.
 - Prints:
     (if it doesn't print press the reset button on the board)
