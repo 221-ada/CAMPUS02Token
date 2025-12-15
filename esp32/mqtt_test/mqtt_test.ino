@@ -5,8 +5,8 @@
 #include <MQTTClient.h>
 #include <ArduinoJson.h>
 
-const char WIFI_SSID[] = "5112";
-const char WIFI_PASSWORD[] = "44145633";
+const char WIFI_SSID[] = "511";
+const char WIFI_PASSWORD[] = "4414563";
 
 const char MQTT_BROKER_ADDRESS[] = "192.168.0.103"; // the PC IP running mosquitto
 const int MQTT_PORT = 1883;
