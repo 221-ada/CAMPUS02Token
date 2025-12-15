@@ -40,17 +40,18 @@ Add / ensure these lines exist:
 ```conf
 listener 1883 0.0.0.0
 allow_anonymous true
+```
 
-> `allow_anonymous true` is OK for a closed local network only.
-> For real deployments, authentification needs to be configured (username, password)
+> `allow_anonymous true` is OK for a closed local lab network only.  
+> For real deployments, configure authentication (username, password).
 
 ---
 
 ## Step 3 — Test MQTT works PC ↔ PC (same device)
-> should work correctly before using ESP32
+> Purpose: prove Mosquitto is running correctly **before** involving the ESP32.
 
 ### 3.1 Start the broker (leave running)
-Open Command Promp:
+Open Command Prompt:
 
 ```bat
 cd /d D:\Apps\Mosquitto
