@@ -48,7 +48,7 @@ allow_anonymous true
 ---
 
 ## Step 3 — Test MQTT works PC ↔ PC (same device)
-> Purpose: prove Mosquitto is running correctly **before** involving the ESP32.
+> Mosquitto should run correctly **before** using it with ESP32.
 
 ### 3.1 Start the broker (leave running)
 Open Command Prompt:
@@ -84,7 +84,7 @@ campus02/test PC_TO_PC_LOCALHOST
 ```
 
 ### 3.3 Test using LAN IP on the PC
-> Purpose: prove Mosquitto is reachable on the **Wi-Fi interface**, not only localhost.
+> Mosquitto should be reachable on the **Wi-Fi interface**, not only localhost.
 
 Find the PC Wi-Fi IPv4 address:
 ```powershell
@@ -132,12 +132,12 @@ campus02/status ESP32 connected
 ### 4.2 Publish a command to ESP32
 ```powershell
 cd D:\Apps\Mosquitto
-.\mosquitto_pub -h 192.168.0.103 -t campus02/cmd -m "ADA1"
+.\mosquitto_pub -h 192.168.0.103 -t campus02/cmd -m "ADA"
 ```
 
 Expected on ESP32 Serial Monitor:
 ```
-MQTT RX topics = campus02/cmd payload = ADA1
+MQTT RX topics = campus02/cmd payload = ADA
 ```
 
 ---
