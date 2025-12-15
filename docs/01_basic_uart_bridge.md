@@ -27,6 +27,19 @@ Baud rate: **115200**, 8 data bits, no parity, 1 stop bit.
 
 ### ESP32 (`esp32/`)
 
+- Working with the Arduino IDE
+- Set the correct board: ESP32S3 Dev mode
+- Set the baud rate / upload speed: 115200
+- USB Mode: "Hardware CDC and JTAG"
+- USB CDC On boot : "Disabled" 
+- Upload Mode: "UART0/ Hardware CDC"
+- CPU Frequency: "240MHZ (WiFi)"
+- Flash Mode: "QIO 80 MHz"
+- Erase All Flash Before Sketch Upload: "Disabled"
+- JTAG Adapter: "Disabled"
+- Zigbee Mode: "Disabled"
+- select the correct COM port (you can find it in the device manager com/ports)
+
 - `Serial` (USB) ↔ PC at 115200.
 - `HardwareSerial STM(1)` ↔ STM32 at 115200, pins `ESP_RX1` / `ESP_TX1`.
 - In the main loop:
@@ -37,7 +50,15 @@ Typing `1` in the Arduino Serial Monitor and sending it to STM32.
 
 ### STM32 (`stm32/`)
 
-- Initializes GPIO, USB, and USART2.
+- Working with the STM32CubeIDE
+- Initializing the project, choosing the correct board 
+
+- Initializes GPIO, USB, USART2 and I2C1 and SPI1 (found in the Connectivity list).
+- For the USART2 configuration settings - enable the NVIC Interrupt
+                                        - parameter settings: Baud rate: **115200**,
+                                                              Word length: **8 data bits** (including Parity),
+                                                              Parity: **None**,
+                                                              Stop bits: **1**
 - Waits 5 seconds.
 - Prints:
     (if it doesn't print press the reset button on the board)
@@ -52,13 +73,14 @@ Typing `1` in the Arduino Serial Monitor and sending it to STM32.
 
 ## How to test
 
-1. Flash STM32 firmware.
-2. Flash ESP32 sketch.
-3. Connect both boards with the UART wiring and common GND.
-4. Open serial terminal at 115200 with correct com port:
+1. Connect both boards with the UART wiring and common GND.
+2. Flash STM32 firmware.
+3. Flash ESP32 sketch.
+4. Open serial terminal at 115200 with correct com port and no line ending:
 5. Type `1` in the ESP32 serial monitor and press **Send**.
    - STM32 log: `Got '1' -> LED toggled`.
    - One on-board LED toggles state.
+(PuTTY can also be used as a serial monitor - choose the connection type as serial and write the correct serial line and speed **115200**)
 
 
 
